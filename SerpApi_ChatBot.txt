@@ -1,0 +1,59 @@
+openapi: 3.1.0
+info:
+  title: SerpAPI
+  description: API to fetch search results from various engines including Google News and Google Finance.
+  version: 1.0.0
+servers:
+  - url: https://serpapi.com
+    description: Main production server
+paths:
+  /search:
+    get:
+      operationId: getGoogleNewsFinance
+      summary: Fetches Google News and Google Finance search results
+      parameters:
+        - name: engine
+          in: query
+          required: true
+          schema:
+            type: string
+          example: google_news, google_finance
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: api_key
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: ["여기에 당신의 SerpApi 키를 넣어주세요 ~ "]
+      responses:
+        "200":
+          description: Successful response with search results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        link:
+                          type: string
+                        snippet:
+                          type: string
+        "400":
+          description: Bad request due to missing or invalid parameters
+        "401":
+          description: Unauthorized request due to invalid API key
+        "500":
+          description: Internal server error
